@@ -36,7 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- WIKIPEDIA POSTER FETCHER ---
     async function getWikiPoster(movieTitle) {
         try {
-            const cleanTitle = movieTitle.replace(/\s\(\d{4}\)$/, '');
+            let cleanTitle = movieTitle.replace(/\s\(\d{4}\)$/, '');
+            // Handle MovieLens title formatting (e.g. "Godfather, The" -> "The Godfather")
+            if (cleanTitle.endsWith(', The')) {
+                cleanTitle = 'The ' + cleanTitle.slice(0, -5);
+            } else if (cleanTitle.endsWith(', A')) {
+                cleanTitle = 'A ' + cleanTitle.slice(0, -3);
+            }
+
             const res = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(cleanTitle)}&prop=pageimages&format=json&pithumbsize=400&origin=*`);
             const data = await res.json();
             const pages = data.query.pages;
@@ -50,6 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return `https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80`;
     }
+
+    // Initialize Home Screen Posters
+    const dynamicPosters = document.querySelectorAll('.dynamic-poster');
+    dynamicPosters.forEach(async (imgElement) => {
+        const title = imgElement.getAttribute('data-title');
+        const imgUrl = await getWikiPoster(title);
+        imgElement.src = imgUrl;
+    });
 
     // --- SVD RECOMMENDATION ENGINE ---
     

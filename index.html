@@ -34,12 +34,8 @@
                 </div>
                 
                 <div class="engine-controls">
-                    <!-- Restored the original Dropdown -->
-                    <select id="userSelect" class="custom-select">
-                        <option value="101">User #101 (Loves Animations & Kids)</option>
-                        <option value="205">User #205 (Sci-Fi & Action Fanatic)</option>
-                        <option value="312">User #312 (Rom-Com Enthusiast)</option>
-                    </select>
+                    <!-- Restored input to support all 610 users -->
+                    <input type="number" id="userSelect" class="custom-input" min="1" max="610" value="101" placeholder="Enter User ID (1-610)">
                     <button id="recommendBtn" class="btn-primary">Generate Recommendations</button>
                 </div>
 
@@ -77,38 +73,38 @@
             <div class="catalog-row fade-in delay-1">
                 <h2>Trending Classics</h2>
                 <div class="row-posters">
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/8/81/ShawshankRedemptionMoviePoster.jpg" alt="Shawshank"><div class="poster-title">The Shawshank Redemption</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/3/3b/Pulp_Fiction_%281994%29_poster.jpg" alt="Pulp Fiction"><div class="poster-title">Pulp Fiction</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/6/67/Forrest_Gump_poster.jpg" alt="Forrest Gump"><div class="poster-title">Forrest Gump</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg" alt="The Matrix"><div class="poster-title">The Matrix</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/2/2e/Inception_%282010%29_theatrical_poster.jpg" alt="Inception"><div class="poster-title">Inception</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/1/1c/Godfather_ver1.jpg" alt="The Godfather"><div class="poster-title">The Godfather</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/5/50/Braveheart_imp.jpg" alt="Braveheart"><div class="poster-title">Braveheart</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="The Shawshank Redemption" alt="Shawshank"><div class="poster-title">The Shawshank Redemption</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Pulp Fiction" alt="Pulp Fiction"><div class="poster-title">Pulp Fiction</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Forrest Gump" alt="Forrest Gump"><div class="poster-title">Forrest Gump</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="The Matrix" alt="The Matrix"><div class="poster-title">The Matrix</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Inception" alt="Inception"><div class="poster-title">Inception</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="The Godfather" alt="The Godfather"><div class="poster-title">The Godfather</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Braveheart" alt="Braveheart"><div class="poster-title">Braveheart</div></div>
                 </div>
             </div>
 
             <div class="catalog-row fade-in delay-2">
                 <h2>Critically Acclaimed</h2>
                 <div class="row-posters">
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/3/38/Schindler%27s_List_movie.jpg" alt="Schindlers List"><div class="poster-title">Schindler's List</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/f/fc/Fight_Club_poster.jpg" alt="Fight Club"><div class="poster-title">Fight Club</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg" alt="Interstellar"><div class="poster-title">Interstellar</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/f/fb/Gladiator_%282000_film_poster%29.png" alt="Gladiator"><div class="poster-title">Gladiator</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/1/1a/The_Dark_Knight_poster.jpg" alt="Dark Knight"><div class="poster-title">The Dark Knight</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/a/ac/Saving_Private_Ryan_poster.jpg" alt="Saving Private Ryan"><div class="poster-title">Saving Private Ryan</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/b/b0/Avatar-Teaser-Poster.jpg" alt="Avatar"><div class="poster-title">Avatar</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Schindler's List" alt="Schindlers List"><div class="poster-title">Schindler's List</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Fight Club" alt="Fight Club"><div class="poster-title">Fight Club</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Interstellar" alt="Interstellar"><div class="poster-title">Interstellar</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Gladiator" alt="Gladiator"><div class="poster-title">Gladiator</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="The Dark Knight" alt="Dark Knight"><div class="poster-title">The Dark Knight</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Saving Private Ryan" alt="Saving Private Ryan"><div class="poster-title">Saving Private Ryan</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Avatar" alt="Avatar"><div class="poster-title">Avatar</div></div>
                 </div>
             </div>
 
             <div class="catalog-row fade-in delay-2">
                 <h2>Hidden Gems</h2>
                 <div class="row-posters">
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/f/f9/The_Truman_Show_poster.jpg" alt="The Truman Show"><div class="poster-title">The Truman Show</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/b/b8/A_Clockwork_Orange_poster.jpg" alt="A Clockwork Orange"><div class="poster-title">A Clockwork Orange</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/8/82/Goodfellas_poster.jpg" alt="Goodfellas"><div class="poster-title">Goodfellas</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/a/a7/Psycho_1960_poster.jpg" alt="Psycho"><div class="poster-title">Psycho</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/1/17/The_Shining_%281980%29_U.K._release_poster_-_The_tide_of_terror_that_swept_America_IS_HERE.jpg" alt="The Shining"><div class="poster-title">The Shining</div></div>
-                    <div class="poster-card"><img src="https://upload.wikimedia.org/wikipedia/en/e/e1/Jaws_dialogue_poster.jpg" alt="Jaws"><div class="poster-title">Jaws</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="The Truman Show" alt="The Truman Show"><div class="poster-title">The Truman Show</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="A Clockwork Orange" alt="A Clockwork Orange"><div class="poster-title">A Clockwork Orange</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Goodfellas" alt="Goodfellas"><div class="poster-title">Goodfellas</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Psycho" alt="Psycho"><div class="poster-title">Psycho</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="The Shining" alt="The Shining"><div class="poster-title">The Shining</div></div>
+                    <div class="poster-card"><img class="dynamic-poster" data-title="Jaws" alt="Jaws"><div class="poster-title">Jaws</div></div>
                 </div>
             </div>
         </section>
