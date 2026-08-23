@@ -19,13 +19,13 @@
     <nav class="navbar">
         <div class="logo">Cine<span>Match</span></div>
         <ul class="nav-links">
-            <li><a href="#engine" class="active" id="nav-engine">Recommendations</a></li>
-            <li><a href="#home" id="nav-home">Home Catalog</a></li>
+            <li><a href="#engine" id="nav-engine">Recommendations</a></li>
+            <li><a href="#home" class="active" id="nav-home">Home Catalog</a></li>
         </ul>
     </nav>
 
-    <!-- ENGINE INTERFACE (DEFAULT VIEW) -->
-    <main id="engine-view" class="view-section active-view">
+    <!-- ENGINE INTERFACE -->
+    <main id="engine-view" class="view-section" style="display: none;">
         <section class="engine-layout fade-in">
             <div class="engine-core glass-card">
                 <div class="engine-header">
@@ -46,8 +46,8 @@
         </section>
     </main>
 
-    <!-- HOME INTERFACE (STATIC CATALOG) -->
-    <main id="home-view" class="view-section" style="display: none;">
+    <!-- HOME INTERFACE (DEFAULT VIEW) -->
+    <main id="home-view" class="view-section active-view">
         <section class="hero-banner">
             <div class="banner-content fade-in">
                 <h1>The Godfather</h1>
