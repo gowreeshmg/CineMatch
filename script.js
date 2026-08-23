@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Live Backend Connection (Render.com)
     // IMPORTANT: Replace this URL with your actual Render API URL once you deploy it!
-    let apiBaseUrl = "https://cinematch-api.onrender.com"; 
+    let apiBaseUrl = "https://cinematch-obk9.onrender.com"; 
 
     const recommendBtn = document.getElementById('recommendBtn');
     const userSelect = document.getElementById('userSelect');
