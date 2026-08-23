@@ -53,9 +53,13 @@ def recommend(user_id):
     
     results = []
     for movie_id, predicted_rating in predictions[:5]:
-        movie_title = movies[movies['movieId'] == movie_id]['title'].values[0]
+        movie_row = movies[movies['movieId'] == movie_id]
+        movie_title = movie_row['title'].values[0]
+        movie_genre = movie_row['genres'].values[0]
+        
         results.append({
             "title": str(movie_title),
+            "genre": str(movie_genre),
             "match": float(predicted_rating)
         })
         

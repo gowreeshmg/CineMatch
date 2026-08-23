@@ -31,6 +31,29 @@ document.addEventListener('DOMContentLoaded', () => {
         switchView('engine');
     });
 
+    // --- WIKIPEDIA POSTER FETCHER ---
+    // Safely fetches official Wikipedia thumbnails instead of relying on blocked AI APIs
+    async function getWikiPoster(movieTitle) {
+        try {
+            // Remove the year (e.g., "(1995)") to improve search accuracy
+            const cleanTitle = movieTitle.replace(/\s\(\d{4}\)$/, '');
+            
+            // Query Wikipedia API for the page image
+            const res = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(cleanTitle)}&prop=pageimages&format=json&pithumbsize=400&origin=*`);
+            const data = await res.json();
+            const pages = data.query.pages;
+            const pageId = Object.keys(pages)[0];
+            
+            if (pageId !== "-1" && pages[pageId].thumbnail) {
+                return pages[pageId].thumbnail.source;
+            }
+        } catch (e) {
+            console.error("Wikipedia image fetch failed for", movieTitle);
+        }
+        
+        // Fallback placeholder if Wikipedia doesn't have an image
+        return `https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80`;
+    }
 
     // --- SVD RECOMMENDATION ENGINE ---
     
@@ -49,11 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Clear previous results
         resultsContainer.innerHTML = '';
-
-        // Add loading state
-        recommendBtn.innerHTML = '<span style="opacity: 0.7;">Generating AI Predictions...</span>';
+        recommendBtn.innerHTML = '<span style="opacity: 0.7;">Predicting via SVD...</span>';
         recommendBtn.disabled = true;
 
         try {
@@ -62,28 +82,29 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error("Network response was not ok");
             const data = await response.json();
             
-            data.recommendations.forEach((movie, index) => {
+            // We use Promise.all to fetch all Wikipedia images in parallel
+            await Promise.all(data.recommendations.map(async (movie, index) => {
+                const imgUrl = await getWikiPoster(movie.title);
+                const matchPercent = ((movie.match / 5.0) * 100).toFixed(1) + "%";
+                
+                // Format genres (replace pipes with spaces or commas)
+                const formattedGenre = (movie.genre || "Unknown").replace(/\|/g, ', ');
+
                 const card = document.createElement('div');
                 card.className = 'rec-card';
                 card.style.animationDelay = `${index * 0.15}s`;
-                
-                // GENERATING ACTUAL POSTERS VIA AI
-                // We use pollinations.ai to generate a cinematic movie poster on the fly using the movie title!
-                const encodedTitle = encodeURIComponent(`Cinematic movie poster for ${movie.title}`);
-                const imgUrl = `https://image.pollinations.ai/prompt/${encodedTitle}?width=300&height=450&nologo=true`;
-                
-                const matchPercent = ((movie.match / 5.0) * 100).toFixed(1) + "%";
 
                 card.innerHTML = `
                     <img src="${imgUrl}" alt="${movie.title}" loading="lazy">
                     <div class="rec-details">
                         <div class="rec-title" title="${movie.title}">${movie.title}</div>
+                        <div class="rec-genre">${formattedGenre}</div>
                         <div class="rec-match">${matchPercent} Match</div>
                     </div>
                 `;
                 
                 resultsContainer.appendChild(card);
-            });
+            }));
 
         } catch (error) {
             console.error("Error fetching recommendations:", error);
