@@ -42,7 +42,14 @@ def home():
 def recommend(user_id):
     all_movie_ids = movies['movieId'].unique()
     user_rated_movies = ratings[ratings['userId'] == user_id]['movieId'].unique()
+    # Find user's favorite movie (highest rating)
+    user_ratings = ratings[ratings['userId'] == user_id]
+    favorite_movie_title = "Unknown"
     
+    if not user_ratings.empty:
+        best_movie_id = user_ratings.sort_values(by='rating', ascending=False).iloc[0]['movieId']
+        favorite_movie_title = movies[movies['movieId'] == best_movie_id]['title'].values[0]
+        
     predictions = []
     for movie_id in all_movie_ids:
         if movie_id not in user_rated_movies:
@@ -63,7 +70,10 @@ def recommend(user_id):
             "match": float(predicted_rating)
         })
         
-    return jsonify({"recommendations": results})
+    return jsonify({
+        "favorite_movie": str(favorite_movie_title),
+        "recommendations": results
+    })
 
 if __name__ == '__main__':
     # Render assigns the port dynamically via an environment variable

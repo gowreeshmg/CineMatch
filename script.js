@@ -33,39 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
         switchView('engine');
     });
 
-    // --- WIKIPEDIA POSTER FETCHER ---
-    async function getWikiPoster(movieTitle) {
-        try {
-            let cleanTitle = movieTitle.replace(/\s\(\d{4}\)$/, '');
-            // Handle MovieLens title formatting (e.g. "Godfather, The" -> "The Godfather")
-            if (cleanTitle.endsWith(', The')) {
-                cleanTitle = 'The ' + cleanTitle.slice(0, -5);
-            } else if (cleanTitle.endsWith(', A')) {
-                cleanTitle = 'A ' + cleanTitle.slice(0, -3);
-            }
-
-            const res = await fetch(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(cleanTitle)}&prop=pageimages&format=json&pithumbsize=400&origin=*`);
-            const data = await res.json();
-            const pages = data.query.pages;
-            const pageId = Object.keys(pages)[0];
-            
-            if (pageId !== "-1" && pages[pageId].thumbnail) {
-                return pages[pageId].thumbnail.source;
-            }
-        } catch (e) {
-            console.error("Wikipedia image fetch failed for", movieTitle);
-        }
-        return `https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80`;
-    }
-
-    // Initialize Home Screen Posters
-    const dynamicPosters = document.querySelectorAll('.dynamic-poster');
-    dynamicPosters.forEach(async (imgElement) => {
-        const title = imgElement.getAttribute('data-title');
-        const imgUrl = await getWikiPoster(title);
-        imgElement.src = imgUrl;
-    });
-
     // --- SVD RECOMMENDATION ENGINE ---
     
     // Live Backend Connection (Render.com)
@@ -74,6 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const recommendBtn = document.getElementById('recommendBtn');
     const userSelect = document.getElementById('userSelect');
     const resultsContainer = document.getElementById('resultsContainer');
+
+    // Populate the dropdown with 610 users
+    if (userSelect) {
+        userSelect.innerHTML = '';
+        for (let i = 1; i <= 610; i++) {
+            const opt = document.createElement('option');
+            opt.value = i;
+            opt.textContent = `User Profile #${i}`;
+            if (i === 101) opt.selected = true;
+            userSelect.appendChild(opt);
+        }
+    }
 
     recommendBtn.addEventListener('click', async () => {
         const userId = userSelect.value;
@@ -88,17 +67,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error("Network response was not ok");
             const data = await response.json();
             
-            await Promise.all(data.recommendations.map(async (movie, index) => {
-                const imgUrl = await getWikiPoster(movie.title);
+            // Show the user's real favorite movie returned from the backend!
+            const favMovieHtml = `<h3 style="grid-column: 1/-1; text-align: center; margin-bottom: 1rem; color: var(--accent-secondary);">Because you loved <i>"${data.favorite_movie}"</i>, we recommend:</h3>`;
+            resultsContainer.innerHTML = favMovieHtml;
+
+            data.recommendations.forEach((movie, index) => {
                 const matchPercent = ((movie.match / 5.0) * 100).toFixed(1) + "%";
                 const formattedGenre = (movie.genre || "Unknown").replace(/\|/g, ', ');
 
                 const card = document.createElement('div');
-                card.className = 'rec-card';
+                card.className = 'rec-card no-image';
                 card.style.animationDelay = `${index * 0.1}s`;
 
+                // NO IMAGES FOR RECOMMENDATIONS, ONLY TEXT
                 card.innerHTML = `
-                    <img src="${imgUrl}" alt="${movie.title}" loading="lazy">
                     <div class="rec-details">
                         <div class="rec-title" title="${movie.title}">${movie.title}</div>
                         <div class="rec-genre">${formattedGenre}</div>
@@ -107,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 
                 resultsContainer.appendChild(card);
-            }));
+            });
 
         } catch (error) {
             console.error("Error fetching recommendations:", error);
