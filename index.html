@@ -3,73 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMatch | Intelligent Recommendation Engine</title>
-    <meta name="description" content="CineMatch - A Collaborative Filtering Movie Recommendation Engine">
+    <title>CineMatch | Premium Recommendations</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Elegant serif for headings, clean sans-serif for body -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <!-- Chart.js for data visualization -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="background-effects">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-    </div>
-
     <nav class="navbar">
         <div class="logo">Cine<span>Match</span></div>
         <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#demo" class="btn-primary">Recommendations</a></li>
+            <li><a href="#home" class="active" id="nav-home">Home</a></li>
+            <li><a href="#engine" id="nav-engine">AI Engine</a></li>
         </ul>
     </nav>
 
-    <main>
-        <section class="hero" id="home">
-            <div class="hero-content">
-                <h1>Curing <span>Analysis Paralysis</span></h1>
-                <p>An Intelligent Recommendation Engine built with Collaborative Filtering and Matrix Factorization.</p>
-                <a href="#demo" class="btn-primary btn-large">Experience CineMatch</a>
+    <!-- HOME INTERFACE: NETFLIX STYLE -->
+    <main id="home-view" class="view-section active-view">
+        <!-- Cinematic Hero Banner -->
+        <section class="hero-banner">
+            <div class="banner-content fade-in">
+                <h1>The Godfather</h1>
+                <div class="banner-meta">
+                    <span class="match-score">98% Match</span>
+                    <span>1972</span>
+                    <span class="age-rating">R</span>
+                    <span>2h 55m</span>
+                </div>
+                <p>The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son. A masterpiece of cinema.</p>
+                <div class="banner-buttons">
+                    <a href="#engine" class="btn-primary" onclick="document.getElementById('nav-engine').click();">
+                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" style="vertical-align: middle; margin-right: 5px;"><path d="M8 5v14l11-7z"/></svg> Personalize Engine
+                    </a>
+                    <button class="btn-secondary">More Info</button>
+                </div>
             </div>
-            <div class="hero-3d">
-                <div class="card-container">
-                    <div class="movie-card card-1">
-                        <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Movie Poster">
-                        <div class="card-info">Sci-Fi Masterpiece</div>
-                    </div>
-                    <div class="movie-card card-2">
-                        <img src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Movie Poster">
-                        <div class="card-info">Epic Adventure</div>
-                    </div>
-                    <div class="movie-card card-3">
-                        <img src="https://images.unsplash.com/photo-1518676590629-3dcbd9c5a5c9?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=60" alt="Movie Poster">
-                        <div class="card-info">Cinematic Drama</div>
-                    </div>
+            <div class="banner-fade-bottom"></div>
+        </section>
+
+        <!-- Catalog Rows -->
+        <section class="catalog">
+            <div class="catalog-row fade-in delay-1">
+                <h2>Trending Classics</h2>
+                <div class="row-posters">
+                    <div class="poster-card"><img src="https://image.pollinations.ai/prompt/Cinematic%20movie%20poster%20for%20The%20Shawshank%20Redemption?width=300&height=450&nologo=true" alt="Shawshank"><div class="poster-title">The Shawshank Redemption</div></div>
+                    <div class="poster-card"><img src="https://image.pollinations.ai/prompt/Cinematic%20movie%20poster%20for%20Pulp%20Fiction?width=300&height=450&nologo=true" alt="Pulp Fiction"><div class="poster-title">Pulp Fiction</div></div>
+                    <div class="poster-card"><img src="https://image.pollinations.ai/prompt/Cinematic%20movie%20poster%20for%20Forrest%20Gump?width=300&height=450&nologo=true" alt="Forrest Gump"><div class="poster-title">Forrest Gump</div></div>
+                    <div class="poster-card"><img src="https://image.pollinations.ai/prompt/Cinematic%20movie%20poster%20for%20The%20Matrix?width=300&height=450&nologo=true" alt="The Matrix"><div class="poster-title">The Matrix</div></div>
+                    <div class="poster-card"><img src="https://image.pollinations.ai/prompt/Cinematic%20movie%20poster%20for%20Inception?width=300&height=450&nologo=true" alt="Inception"><div class="poster-title">Inception</div></div>
+                    <div class="poster-card"><img src="https://image.pollinations.ai/prompt/Cinematic%20movie%20poster%20for%20Goodfellas?width=300&height=450&nologo=true" alt="Goodfellas"><div class="poster-title">Goodfellas</div></div>
+                </div>
+            </div>
+
+            <div class="catalog-row fade-in delay-2">
+                <h2>Critically Acclaimed</h2>
+                <div class="row-posters">
+                    <div class="poster-card"><img src="https://image.pollinations.ai/prompt/Cinematic%20movie%20poster%20for%20Schindler's%20List?width=300&height=450&nologo=true" alt="Schindlers List"><div class="poster-title">Schindler's List</div></div>
+                    <div class="poster-card"><img src="https://image.pollinations.ai/prompt/Cinematic%20movie%20poster%20for%20Fight%20Club?width=300&height=450&nologo=true" alt="Fight Club"><div class="poster-title">Fight Club</div></div>
+                    <div class="poster-card"><img src="https://image.pollinations.ai/prompt/Cinematic%20movie%20poster%20for%20Interstellar?width=300&height=450&nologo=true" alt="Interstellar"><div class="poster-title">Interstellar</div></div>
+                    <div class="poster-card"><img src="https://image.pollinations.ai/prompt/Cinematic%20movie%20poster%20for%20Gladiator?width=300&height=450&nologo=true" alt="Gladiator"><div class="poster-title">Gladiator</div></div>
+                    <div class="poster-card"><img src="https://image.pollinations.ai/prompt/Cinematic%20movie%20poster%20for%20The%20Dark%20Knight?width=300&height=450&nologo=true" alt="Dark Knight"><div class="poster-title">The Dark Knight</div></div>
+                    <div class="poster-card"><img src="https://image.pollinations.ai/prompt/Cinematic%20movie%20poster%20for%20Saving%20Private%20Ryan?width=300&height=450&nologo=true" alt="Saving Private Ryan"><div class="poster-title">Saving Private Ryan</div></div>
                 </div>
             </div>
         </section>
+    </main>
 
+    <!-- ENGINE INTERFACE: PERSONALIZED SVD -->
+    <main id="engine-view" class="view-section" style="display: none;">
+        <section class="engine-container fade-in">
+            <div class="engine-header">
+                <h2>The SVD Recommendation Engine</h2>
+                <p>Enter any User ID to generate highly personalized AI movie recommendations.</p>
+            </div>
+            
+            <div class="engine-controls">
+                <input type="number" id="userSelect" class="custom-input" min="1" max="610" value="101" placeholder="Enter User ID (1-610)">
+                <button id="recommendBtn" class="btn-primary">Generate For You</button>
+            </div>
 
-        <section id="demo" class="demo-section">
-            <div class="demo-container glass-card">
-                <h2>Try the Recommendation Engine</h2>
-                <p>Select a user profile to see their Top 5 movie recommendations generated by the SVD model.</p>
-                
-                <div class="demo-controls">
-                    <select id="userSelect" class="custom-select">
-                        <option value="101">User #101 (Loves Animations & Kids)</option>
-                        <option value="205">User #205 (Sci-Fi & Action Fanatic)</option>
-                        <option value="312">User #312 (Rom-Com Enthusiast)</option>
-                    </select>
-                    <button id="recommendBtn" class="btn-primary">Generate Recommendations</button>
-                </div>
-
-                <div class="recommendation-results" id="resultsContainer">
-                    <!-- Cards will be injected here via JS -->
-                    <div class="placeholder-text">Waiting for user selection...</div>
-                </div>
+            <div class="recommendation-results" id="resultsContainer">
+                <div class="placeholder-text">Awaiting User Selection...</div>
             </div>
         </section>
     </main>

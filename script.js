@@ -1,8 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    
 
-    // 4. Live Backend Connection (Render.com)
+    // --- NAVIGATION LOGIC ---
+    const navHome = document.getElementById('nav-home');
+    const navEngine = document.getElementById('nav-engine');
+    const homeView = document.getElementById('home-view');
+    const engineView = document.getElementById('engine-view');
+
+    function switchView(view) {
+        if (view === 'home') {
+            homeView.style.display = 'block';
+            engineView.style.display = 'none';
+            navHome.classList.add('active');
+            navEngine.classList.remove('active');
+        } else {
+            homeView.style.display = 'none';
+            engineView.style.display = 'block';
+            navHome.classList.remove('active');
+            navEngine.classList.add('active');
+        }
+        window.scrollTo(0,0);
+    }
+
+    navHome.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchView('home');
+    });
+
+    navEngine.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchView('engine');
+    });
+
+
+    // --- SVD RECOMMENDATION ENGINE ---
+    
+    // Live Backend Connection (Render.com)
     let apiBaseUrl = "https://cinematch-obk9.onrender.com"; 
 
     const recommendBtn = document.getElementById('recommendBtn');
@@ -12,11 +44,16 @@ document.addEventListener('DOMContentLoaded', () => {
     recommendBtn.addEventListener('click', async () => {
         const userId = userSelect.value;
         
+        if (!userId || userId < 1 || userId > 610) {
+            alert("Please enter a valid User ID between 1 and 610.");
+            return;
+        }
+
         // Clear previous results
         resultsContainer.innerHTML = '';
 
         // Add loading state
-        recommendBtn.innerText = 'Fetching live AI predictions from Render...';
+        recommendBtn.innerHTML = '<span style="opacity: 0.7;">Generating AI Predictions...</span>';
         recommendBtn.disabled = true;
 
         try {
@@ -28,18 +65,20 @@ document.addEventListener('DOMContentLoaded', () => {
             data.recommendations.forEach((movie, index) => {
                 const card = document.createElement('div');
                 card.className = 'rec-card';
-                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animationDelay = `${index * 0.15}s`;
                 
-                // Generic placeholder image since MovieLens doesn't provide posters
-                const imgUrl = "https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80";
+                // GENERATING ACTUAL POSTERS VIA AI
+                // We use pollinations.ai to generate a cinematic movie poster on the fly using the movie title!
+                const encodedTitle = encodeURIComponent(`Cinematic movie poster for ${movie.title}`);
+                const imgUrl = `https://image.pollinations.ai/prompt/${encodedTitle}?width=300&height=450&nologo=true`;
                 
                 const matchPercent = ((movie.match / 5.0) * 100).toFixed(1) + "%";
 
                 card.innerHTML = `
-                    <img src="${imgUrl}" alt="${movie.title}">
+                    <img src="${imgUrl}" alt="${movie.title}" loading="lazy">
                     <div class="rec-details">
                         <div class="rec-title" title="${movie.title}">${movie.title}</div>
-                        <div class="rec-match">SVD Match: ${matchPercent}</div>
+                        <div class="rec-match">${matchPercent} Match</div>
                     </div>
                 `;
                 
@@ -48,9 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error("Error fetching recommendations:", error);
-            resultsContainer.innerHTML = `<p style="color: #ef4444; text-align: center; width: 100%; padding-top: 20px;">Failed to connect to backend. Please ensure your Render API is deployed and the URL in script.js is correct!</p>`;
+            resultsContainer.innerHTML = `<p style="color: #ef4444; text-align: center; grid-column: 1/-1; padding: 2rem;">Failed to connect to backend API.</p>`;
         } finally {
-            recommendBtn.innerText = 'Generate Recommendations';
+            recommendBtn.innerHTML = 'Generate For You';
             recommendBtn.disabled = false;
         }
     });
