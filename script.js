@@ -54,6 +54,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- DYNAMIC POSTER FETCHER (CINEMETA API) ---
+    async function getCinemetaPoster(movieTitle) {
+        try {
+            // Remove the year for better searching
+            const cleanTitle = movieTitle.replace(/\s\(\d{4}\)$/, '').trim();
+            const res = await fetch(`https://v3-cinemeta.strem.io/catalog/movie/top/search=${encodeURIComponent(cleanTitle)}.json`);
+            const data = await res.json();
+            
+            if (data && data.metas && data.metas.length > 0 && data.metas[0].poster) {
+                return data.metas[0].poster; // This returns highly reliable Amazon AWS images
+            }
+        } catch (e) {
+            console.error("Cinemeta image fetch failed for", movieTitle);
+        }
+        // Fallback clapperboard
+        return `https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80`;
+    }
+
     recommendBtn.addEventListener('click', async () => {
         const userId = userSelect.value;
         
@@ -71,16 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const favMovieHtml = `<h3 style="grid-column: 1/-1; text-align: center; margin-bottom: 1rem; color: var(--accent-secondary);">Because you loved <i>"${data.favorite_movie}"</i>, we recommend:</h3>`;
             resultsContainer.innerHTML = favMovieHtml;
 
-            data.recommendations.forEach((movie, index) => {
+            await Promise.all(data.recommendations.map(async (movie, index) => {
+                const imgUrl = await getCinemetaPoster(movie.title);
                 const matchPercent = ((movie.match / 5.0) * 100).toFixed(1) + "%";
                 const formattedGenre = (movie.genre || "Unknown").replace(/\|/g, ', ');
 
                 const card = document.createElement('div');
-                card.className = 'rec-card no-image';
+                card.className = 'rec-card';
                 card.style.animationDelay = `${index * 0.1}s`;
 
-                // NO IMAGES FOR RECOMMENDATIONS, ONLY TEXT
                 card.innerHTML = `
+                    <img src="${imgUrl}" alt="${movie.title}" loading="lazy">
                     <div class="rec-details">
                         <div class="rec-title" title="${movie.title}">${movie.title}</div>
                         <div class="rec-genre">${formattedGenre}</div>
@@ -89,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 
                 resultsContainer.appendChild(card);
-            });
+            }));
 
         } catch (error) {
             console.error("Error fetching recommendations:", error);

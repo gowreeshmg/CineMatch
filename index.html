@@ -34,8 +34,8 @@
                 </div>
                 
                 <div class="engine-controls">
-                    <!-- Restored input to support all 610 users -->
-                    <input type="number" id="userSelect" class="custom-input" min="1" max="610" value="101" placeholder="Enter User ID (1-610)">
+                    <!-- The 610 options will be populated dynamically by script.js -->
+                    <select id="userSelect" class="custom-select"></select>
                     <button id="recommendBtn" class="btn-primary">Generate Recommendations</button>
                 </div>
 
@@ -68,43 +68,43 @@
             <div class="banner-fade-bottom"></div>
         </section>
 
-        <!-- Expanded Catalog with 20 Movies using Wikipedia -->
+        <!-- Catalog with Guaranteed Working Posters via AWS / TMDB CDN -->
         <section class="catalog">
             <div class="catalog-row fade-in delay-1">
                 <h2>Trending Classics</h2>
                 <div class="row-posters">
-                    <div class="poster-card"><img class="dynamic-poster" data-title="The Shawshank Redemption" alt="Shawshank"><div class="poster-title">The Shawshank Redemption</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Pulp Fiction" alt="Pulp Fiction"><div class="poster-title">Pulp Fiction</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Forrest Gump" alt="Forrest Gump"><div class="poster-title">Forrest Gump</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="The Matrix" alt="The Matrix"><div class="poster-title">The Matrix</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Inception" alt="Inception"><div class="poster-title">Inception</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="The Godfather" alt="The Godfather"><div class="poster-title">The Godfather</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Braveheart" alt="Braveheart"><div class="poster-title">Braveheart</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BMDAyY2FhYjctNDc5OS00MDNlLThiMGUtY2UxYWVkNGY2ZjljXkEyXkFqcGc@._V1_SX250.jpg" alt="Shawshank"><div class="poster-title">The Shawshank Redemption</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BYTViYTE3ZGQtNDBlMC00ZTAyLTkyODMtZGRiZDg0MjA2YThkXkEyXkFqcGc@._V1_SX250.jpg" alt="Pulp Fiction"><div class="poster-title">Pulp Fiction</div></div>
+                    <div class="poster-card"><img src="https://image.tmdb.org/t/p/w500/arw2vcBveWOVZr6pxd9XTd1TdQa.jpg" alt="Forrest Gump"><div class="poster-title">Forrest Gump</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BN2NmN2VhMTQtMDNiOS00NDlhLTliMjgtODE2ZTY0ODQyNDRhXkEyXkFqcGc@._V1_SX250.jpg" alt="The Matrix"><div class="poster-title">The Matrix</div></div>
+                    <div class="poster-card"><img src="https://image.tmdb.org/t/p/w500/oYuLEt3zVCKq57qu2F8dT7NIa6f.jpg" alt="Inception"><div class="poster-title">Inception</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BNzIxMDQ2YTctNDY4MC00ZTRhLTk4ODQtMTVlOWY4NTdiYmMwXkEyXkFqcGc@._V1_SX250.jpg" alt="Lord of the Rings"><div class="poster-title">Lord of the Rings</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BZmM3ZjE0NzctNjBiOC00MDZmLTgzMTUtNGVlOWFlOTNiZDJiXkEyXkFqcGc@._V1_SX250.jpg" alt="Back to the Future"><div class="poster-title">Back to the Future</div></div>
                 </div>
             </div>
 
             <div class="catalog-row fade-in delay-2">
                 <h2>Critically Acclaimed</h2>
                 <div class="row-posters">
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Schindler's List" alt="Schindlers List"><div class="poster-title">Schindler's List</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Fight Club" alt="Fight Club"><div class="poster-title">Fight Club</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Interstellar" alt="Interstellar"><div class="poster-title">Interstellar</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Gladiator" alt="Gladiator"><div class="poster-title">Gladiator</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="The Dark Knight" alt="Dark Knight"><div class="poster-title">The Dark Knight</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Saving Private Ryan" alt="Saving Private Ryan"><div class="poster-title">Saving Private Ryan</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Avatar" alt="Avatar"><div class="poster-title">Avatar</div></div>
+                    <div class="poster-card"><img src="https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg" alt="The Godfather"><div class="poster-title">The Godfather</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BOTgyOGQ1NDItNGU3Ny00MjU3LTg2YWEtNmEyYjBiMjI1Y2M5XkEyXkFqcGc@._V1_SX250.jpg" alt="Fight Club"><div class="poster-title">Fight Club</div></div>
+                    <div class="poster-card"><img src="https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" alt="Interstellar"><div class="poster-title">Interstellar</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BYWQ4YmNjYjEtOWE1Zi00Y2U4LWI4NTAtMTU0MjkxNWQ1ZmJiXkEyXkFqcGc@._V1_SX250.jpg" alt="Gladiator"><div class="poster-title">Gladiator</div></div>
+                    <div class="poster-card"><img src="https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg" alt="Dark Knight"><div class="poster-title">The Dark Knight</div></div>
+                    <div class="poster-card"><img src="https://image.tmdb.org/t/p/w500/oU7Oq2kFAAlGqbU4VoAE36g4hoI.jpg" alt="Jurassic Park"><div class="poster-title">Jurassic Park</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BYTNhNmY0YWMtMTczYi00MTA0LThhMmUtMTIxYzE0Y2QwMzRlXkEyXkFqcGc@._V1_SX250.jpg" alt="E.T."><div class="poster-title">E.T.</div></div>
                 </div>
             </div>
-
+            
             <div class="catalog-row fade-in delay-2">
                 <h2>Hidden Gems</h2>
                 <div class="row-posters">
-                    <div class="poster-card"><img class="dynamic-poster" data-title="The Truman Show" alt="The Truman Show"><div class="poster-title">The Truman Show</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="A Clockwork Orange" alt="A Clockwork Orange"><div class="poster-title">A Clockwork Orange</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Goodfellas" alt="Goodfellas"><div class="poster-title">Goodfellas</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Psycho" alt="Psycho"><div class="poster-title">Psycho</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="The Shining" alt="The Shining"><div class="poster-title">The Shining</div></div>
-                    <div class="poster-card"><img class="dynamic-poster" data-title="Jaws" alt="Jaws"><div class="poster-title">Jaws</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BNzA3ZjZlNzYtMTdjMy00NjMzLTk5ZGYtMTkyYzNiOGM1YmM3XkEyXkFqcGc@._V1_SX250.jpg" alt="The Truman Show"><div class="poster-title">The Truman Show</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BNGMyMGNkMDUtMjc2Ni00NWFlLTgyODEtZTY2MzBiZTg0OWZiXkEyXkFqcGc@._V1_SX250.jpg" alt="Terminator 2"><div class="poster-title">Terminator 2</div></div>
+                    <div class="poster-card"><img src="https://image.tmdb.org/t/p/w500/aKuFiU82s5ISJpGZp7YkIr3kCUd.jpg" alt="Goodfellas"><div class="poster-title">Goodfellas</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BZDEyY2M2MGMtYjg5OC00ZWFjLWFkZDQtNmQzZTdiYmYzZTBkXkEyXkFqcGc@._V1_SX250.jpg" alt="Rocky"><div class="poster-title">Rocky</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BN2NhMDk2MmEtZDQzOC00MmY5LThhYzAtMDdjZGFjOGZjMjdjXkEyXkFqcGc@._V1_SX250.jpg" alt="Alien"><div class="poster-title">Alien</div></div>
+                    <div class="poster-card"><img src="https://m.media-amazon.com/images/M/MV5BYjViNDQzNmUtYzkxZi00NTk5LTljMmItYjJlZmZkODIxNjU1XkEyXkFqcGc@._V1_SX250.jpg" alt="Jaws"><div class="poster-title">Jaws</div></div>
                 </div>
             </div>
         </section>
