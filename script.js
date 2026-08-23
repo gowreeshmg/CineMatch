@@ -42,16 +42,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const userSelect = document.getElementById('userSelect');
     const resultsContainer = document.getElementById('resultsContainer');
 
-    // Populate the dropdown with 610 users
+    // Populate the dropdown dynamically from the backend!
     if (userSelect) {
-        userSelect.innerHTML = '';
-        for (let i = 1; i <= 610; i++) {
-            const opt = document.createElement('option');
-            opt.value = i;
-            opt.textContent = `User Profile #${i}`;
-            if (i === 101) opt.selected = true;
-            userSelect.appendChild(opt);
+        userSelect.innerHTML = '<option value="">Connecting to AI Engine...</option>';
+        
+        async function loadUserProfiles() {
+            try {
+                const res = await fetch(`${apiBaseUrl}/users_preview`);
+                if (!res.ok) throw new Error("Failed to load profiles");
+                const favs = await res.json();
+                
+                userSelect.innerHTML = '';
+                for (let i = 1; i <= 610; i++) {
+                    const opt = document.createElement('option');
+                    opt.value = i;
+                    
+                    // Clean up the title if it's too long, just for the dropdown
+                    let movieTitle = favs[i] || "Unknown Movie";
+                    if (movieTitle.length > 35) movieTitle = movieTitle.substring(0, 35) + "...";
+                    
+                    opt.textContent = `User Profile #${i} (who likes ${movieTitle})`;
+                    if (i === 101) opt.selected = true;
+                    userSelect.appendChild(opt);
+                }
+            } catch (err) {
+                console.error(err);
+                userSelect.innerHTML = '<option value="101">User Profile #101 (Offline Mode)</option>';
+            }
         }
+        
+        loadUserProfiles();
     }
 
     // --- DYNAMIC POSTER FETCHER (CINEMETA API) ---
