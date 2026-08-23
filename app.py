@@ -24,6 +24,10 @@ print("Loading data and training SVD model for production...")
 movies = pd.read_csv('ml-latest-small/movies.csv')
 ratings = pd.read_csv('ml-latest-small/ratings.csv')
 
+# Pre-calculate popular movies to filter out obscure niche films (Standard Data Science practice)
+movie_counts = ratings['movieId'].value_counts()
+popular_movie_ids = movie_counts[movie_counts >= 30].index.tolist()
+
 reader = Reader(rating_scale=(0.5, 5.0))
 data = Dataset.load_from_df(ratings[['userId', 'movieId', 'rating']], reader)
 trainset = data.build_full_trainset()
@@ -51,7 +55,8 @@ def users_preview():
 
 @app.route('/recommend/<int:user_id>')
 def recommend(user_id):
-    all_movie_ids = movies['movieId'].unique()
+    # Only predict from popular movies to ensure high-quality, recognizable recommendations
+    all_movie_ids = popular_movie_ids
     user_rated_movies = ratings[ratings['userId'] == user_id]['movieId'].unique()
     # Find user's favorite movie (highest rating)
     user_ratings = ratings[ratings['userId'] == user_id]
