@@ -38,6 +38,17 @@ print("Model trained and ready for production API traffic!")
 def home():
     return "CineMatch API is running! Use /recommend/<user_id> to get predictions."
 
+@app.route('/users_preview')
+def users_preview():
+    # Get the highest rated movie for each user
+    idx = ratings.groupby('userId')['rating'].idxmax()
+    best_movies = ratings.loc[idx]
+    merged = best_movies.merge(movies, on='movieId')[['userId', 'title']]
+    
+    # Convert to a dictionary: { "1": "Toy Story", "2": "Jumanji", ... }
+    favs = {str(row['userId']): str(row['title']) for _, row in merged.iterrows()}
+    return jsonify(favs)
+
 @app.route('/recommend/<int:user_id>')
 def recommend(user_id):
     all_movie_ids = movies['movieId'].unique()
