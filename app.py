@@ -7,11 +7,10 @@ import urllib.request
 import zipfile
 
 app = Flask(__name__)
-# Allow CORS so your Netlify/Vercel frontend can make requests to this Render API
+# Allow CORS for frontend
 CORS(app) 
 
-# --- BOOTUP LOGIC ---
-# Render needs to download the dataset if it's not checked into GitHub
+# Download dataset if not exists
 if not os.path.exists('ml-latest-small'):
     print("Downloading MovieLens dataset...")
     url = "http://files.grouplens.org/datasets/movielens/ml-latest-small.zip"
@@ -20,11 +19,11 @@ if not os.path.exists('ml-latest-small'):
         zip_ref.extractall(".")
     print("Download complete.")
 
-print("Loading data and training SVD model for production...")
+print("Loading data and training model...")
 movies = pd.read_csv('ml-latest-small/movies.csv')
 ratings = pd.read_csv('ml-latest-small/ratings.csv')
 
-# Pre-calculate popular movies to filter out obscure niche films (Standard Data Science practice)
+# filter out movies with few ratings
 movie_counts = ratings['movieId'].value_counts()
 popular_movie_ids = movie_counts[movie_counts >= 30].index.tolist()
 
@@ -32,12 +31,11 @@ reader = Reader(rating_scale=(0.5, 5.0))
 data = Dataset.load_from_df(ratings[['userId', 'movieId', 'rating']], reader)
 trainset = data.build_full_trainset()
 
-# Train the optimal model in memory
+# Train model
 algo_svd = SVD(n_factors=150, lr_all=0.01, reg_all=0.1, random_state=42)
 algo_svd.fit(trainset)
-print("Model trained and ready for production API traffic!")
+print("Model trained")
 
-# --- API ENDPOINTS ---
 @app.route('/')
 def home():
     return "CineMatch API is running! Use /recommend/<user_id> to get predictions."
@@ -49,13 +47,12 @@ def users_preview():
     best_movies = ratings.loc[idx]
     merged = best_movies.merge(movies, on='movieId')[['userId', 'title']]
     
-    # Convert to a dictionary: { "1": "Toy Story", "2": "Jumanji", ... }
     favs = {str(row['userId']): str(row['title']) for _, row in merged.iterrows()}
     return jsonify(favs)
 
 @app.route('/recommend/<int:user_id>')
 def recommend(user_id):
-    # Only predict from popular movies to ensure high-quality, recognizable recommendations
+    # Only predict from popular movies
     all_movie_ids = popular_movie_ids
     user_rated_movies = ratings[ratings['userId'] == user_id]['movieId'].unique()
     # Find user's favorite movie (highest rating)
@@ -92,6 +89,5 @@ def recommend(user_id):
     })
 
 if __name__ == '__main__':
-    # Render assigns the port dynamically via an environment variable
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)

@@ -1,9 +1,9 @@
 :root {
     --bg-color: #ffffff;
-    --text-primary: #171717; /* Charcoal */
-    --text-secondary: #52525b; /* Medium Gray */
-    --accent-primary: #000000; /* Pure Black accent for Apple style */
-    --accent-secondary: #0ea5e9; /* Subtle Sky Blue for accents */
+    --text-primary: #18181b;
+    --text-secondary: #52525b;
+    --accent-primary: #000000;
+    --accent-secondary: #0ea5e9;
     --card-bg: rgba(255, 255, 255, 0.85);
     --border-color: rgba(0, 0, 0, 0.08);
     --navbar-bg: rgba(255, 255, 255, 0.9);
@@ -32,7 +32,7 @@ h1, h2, h3, h4, .logo {
 .delay-2 { animation-delay: 0.2s; }
 @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
 
-/* 3D Background Blobs */
+/* Background Blobs */
 .background-effects {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
     z-index: -1; overflow: hidden;
@@ -86,7 +86,7 @@ h1, h2, h3, h4, .logo {
 /* View Sections */
 .view-section { padding-top: 80px; min-height: 100vh; }
 
-/* Engine Interface Layout (Centered) */
+/* Engine Layout */
 .engine-layout {
     display: flex; justify-content: center; align-items: center;
     padding: 4rem 5%; min-height: 85vh;
@@ -135,7 +135,7 @@ h1, h2, h3, h4, .logo {
 .rec-match { font-size: 0.85rem; color: var(--accent-secondary); font-weight: 700; }
 @keyframes popIn { to { opacity: 1; transform: scale(1); } }
 
-/* Home Interface (Static Catalog) */
+/* Home Interface */
 .hero-banner {
     position: relative; height: 75vh;
     background-image: url('https://images.unsplash.com/photo-1440404653325-ab127d49abc1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');

@@ -33,18 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
         switchView('engine');
     });
 
-    // --- SVD RECOMMENDATION ENGINE ---
-    
-    // Live Backend Connection (Render.com)
+    // Initialize API endpoint
     let apiBaseUrl = "https://cinematch-obk9.onrender.com"; 
 
     const recommendBtn = document.getElementById('recommendBtn');
     const userSelect = document.getElementById('userSelect');
     const resultsContainer = document.getElementById('resultsContainer');
 
-    // Populate the dropdown dynamically from the backend!
+    // Populate the user dropdown
     if (userSelect) {
-        userSelect.innerHTML = '<option value="">Connecting to AI Engine...</option>';
+        userSelect.innerHTML = '<option value="">Loading profiles...</option>';
         
         async function loadUserProfiles() {
             try {
@@ -74,21 +72,19 @@ document.addEventListener('DOMContentLoaded', () => {
         loadUserProfiles();
     }
 
-    // --- DYNAMIC POSTER FETCHER (CINEMETA API) ---
+    // Fetch movie posters from Cinemeta
     async function getCinemetaPoster(movieTitle) {
         try {
-            // Remove the year for better searching
             const cleanTitle = movieTitle.replace(/\s\(\d{4}\)$/, '').trim();
             const res = await fetch(`https://v3-cinemeta.strem.io/catalog/movie/top/search=${encodeURIComponent(cleanTitle)}.json`);
             const data = await res.json();
             
             if (data && data.metas && data.metas.length > 0 && data.metas[0].poster) {
-                return data.metas[0].poster; // This returns highly reliable Amazon AWS images
+                return data.metas[0].poster;
             }
         } catch (e) {
-            console.error("Cinemeta image fetch failed for", movieTitle);
+            console.error("Poster fetch failed", movieTitle);
         }
-        // Fallback clapperboard
         return `https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80`;
     }
 
@@ -96,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const userId = userSelect.value;
         
         resultsContainer.innerHTML = '';
-        recommendBtn.innerHTML = '<span style="opacity: 0.7;">Predicting via SVD...</span>';
+        recommendBtn.innerHTML = '<span style="opacity: 0.7;">Loading...</span>';
         recommendBtn.disabled = true;
 
         try {
@@ -105,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error("Network response was not ok");
             const data = await response.json();
             
-            // Show the user's real favorite movie returned from the backend!
             const favMovieHtml = `<h3 style="grid-column: 1/-1; text-align: center; margin-bottom: 1rem; color: var(--accent-secondary);">Because you loved <i>"${data.favorite_movie}"</i>, we recommend:</h3>`;
             resultsContainer.innerHTML = favMovieHtml;
 
